@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق الفقاعات</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: #b3e5fc; /* خلفية السماء الزرقاء الفاتحة */
+            overflow: hidden; /* لإخفاء أي عناصر تتجاوز حدود الشاشة */
+        }
+
+        .clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: url('https://i.imgur.com/fGDXduz.png') repeat-x; /* خلفية الغيوم */
+            animation: moveClouds 60s linear infinite;
+        }
+
+        @keyframes moveClouds {
+            from { background-position: 0 0; }
+            to { background-position: -10000px 0; }
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #82b1ff;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header button {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #1976d2;
+        }
+
+        .bubble-container {
+            position: absolute;
+            top: 100px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .bubble {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            cursor: pointer;
+            animation: float 8s ease-in-out infinite;
+            transition: transform 0.3s;
+        }
+
+        .bubble:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .bubble-content {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .actions {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .actions button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .actions button:hover {
+            color: #1976d2;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: #f0f8ff;
+            color: #333;
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+
+        /* لإضافة التفاعل المتجاوب للأجهزة المحمولة */
+        @media (max-width: 600px) {
+            .bubble {
+                width: 100px;
+                height: 100px;
+                font-size: 12px;
+            }
+
+            .header button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الغيوم المتحركة -->
+    <div class="clouds"></div>
+
+    <!-- رأس الصفحة مع الأزرار -->
+    <div class="header">
+        <button id="addBubble">إضافة مشاركة</button>
+        <button id="popBubble">فقع الفقاعة</button>
+        <button id="login">تسجيل الدخول</button>
+    </div>
+
+    <!-- حاوية الفقاعات -->
+    <div class="bubble-container" id="bubbleContainer">
+        <!-- فقاعات مبدئية -->
+        <div class="bubble">
+            <div class="bubble-content">هذا نص داخل الفقاعة</div>
+            <div class="actions">
+                <button class="like">👍</button>
+                <button class="dislike">👎</button>
+                <button class="delete">🗑️</button>
+                <button class="share">🔗</button>
+            </div>
+        </div>
+        <div class="bubble">
+            <div class="bubble-content">هذه فقاعة أخرى</div>
+            <div class="actions">
+                <button class="like">👍</button>
+                <button class="dislike">👎</button>
+                <button class="delete">🗑️</button>
+                <button class="share">🔗</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نهاية الصفحة -->
+    <footer>
+        Hend Saleh 2025
+    </footer>
+
+    <!-- سكربت لإضافة بعض التفاعلات -->
+    <script>
+        const bubbleContainer = document.getElementById('bubbleContainer');
+
+        // وظيفة لإضافة فقاعة جديدة
+        document.getElementById('addBubble').addEventListener('click', () => {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            bubble.innerHTML = `
+                <div class="bubble-content">مشاركة جديدة!</div>
+                <div class="actions">
+                    <button class="like">👍</button>
+                    <button class="dislike">👎</button>
+                    <button class="delete">🗑️</button>
+                    <button class="share">🔗</button>
+                </div>
+            `;
+            bubbleContainer.appendChild(bubble);
+            addBubbleEvents(bubble);
+        });
+
+        // وظيفة لإضافة الأحداث إلى الفقاعات
+        function addBubbleEvents(bubble) {
+            bubble.addEventListener('click', () => {
+                alert(bubble.querySelector('.bubble-content').textContent);
+            });
+
+            const likeButton = bubble.querySelector('.like');
+            likeButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                alert('تم الإعجاب بهذه الفقاعة');
+            });
+
+            const dislikeButton = bubble.querySelector('.dislike');
+            dislikeButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                alert('لم يعجبك');
+            });
+
+            const deleteButton = bubble.querySelector('.delete');
+            deleteButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                bubble.remove();
+            });
+
+            const shareButton = bubble.querySelector('.share');
+            shareButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                alert('تمت المشاركة');
+            });
+        }
+
+        // إضافة الأحداث إلى الفقاعات المبدئية
+        const initialBubbles = document.querySelectorAll('.bubble');
+        initialBubbles.forEach(bubble => addBubbleEvents(bubble));
+    </script>
+
+</body>
+</html>
